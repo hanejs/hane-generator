@@ -1,16 +1,18 @@
 
-import hane from '../../hane'
+import '../../hane'
 import '../../hane-theme-simple'
 
 import path from 'path'
 import Promise from 'bluebird'
 import fsExtra from 'fs-extra'
 import Generator from './generator'
+import { getPagePath } from './utils'
 
 const fs = Promise.promisifyAll(fsExtra)
 
 const ROOT_PATH = path.join(__dirname, '../..')
 const SOURCE_PATH = path.join(ROOT_PATH, 'source')
+const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
 
 async function getMetaInfo(context, type) {
   try {
@@ -64,10 +66,31 @@ async function read() {
   return context
 }
 
+async function generate(context) {
+  const theme = hane.runtime.theme
+  await fs.ensureDirAsync(PUBLIC_PATH)
+
+  // generating urls
+  for (const post of context.posts) {
+    const pagePath = getPagePath(post.create_time, post.slug || post.title)
+    post.url = pagePath
+  }
+
+  // generating pages
+  for (const post of context.posts) {
+    const dirPath = path.join(PUBLIC_PATH, post.url)
+    await fs.ensureDirAsync(dirPath)
+    const indexPath = path.join(dirPath, 'index.html')
+    const html = await theme.render({
+      items: [ post.content ],
+      tags: context.tags,
+    }, 'item')
+    await fs.writeFileAsync(indexPath, html)
+  }
+}
+
 read()
-  .then(context => {
-    context.pages
-  })
+  .then(generate)
   .catch(err => {
     console.log(err)
   })
