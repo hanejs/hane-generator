@@ -1,0 +1,33 @@
+{
+  "name": "hane-generator",
+  "version": "0.2.0",
+  "description": "A static page generator for hanejs.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hanejs/hane-generator.git"
+  },
+  "keywords": [
+    "hane",
+    "hanejs",
+    "static-page-generator"
+  ],
+  "author": "tengattack",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/hanejs/hane-generator/issues"
+  },
+  "homepage": "https://github.com/hanejs/hane-generator#readme",
+  "devDependencies": {
+    "babel-core": "^6.24.1",
+    "babel-preset-es2017-node7": "^0.5.2"
+  },
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "fs-extra": "^2.1.2"
+  }
+}
