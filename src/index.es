@@ -14,6 +14,7 @@ const ROOT_PATH = path.join(__dirname, '../..')
 const SOURCE_PATH = path.join(ROOT_PATH, 'source')
 const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
 
+const PUBLIC_URL = '/'
 const PAGE_POSTS_COUNT = 20
 
 async function getMetaInfo(context, type) {
@@ -65,6 +66,8 @@ async function read() {
   await readList(context, 'pages')
   await readList(context, 'posts')
 
+  context.posts = context.posts.reverse()
+
   return context
 }
 
@@ -76,7 +79,7 @@ async function generate(context) {
   for (const post of context.posts) {
     const pagePath = getPagePath(post.create_time, post.slug || post.title)
     post.pagePath = pagePath
-    post.url = '/' + pagePath
+    post.url = PUBLIC_URL + pagePath
     post.shortContent = theme.getShortIntroduction(post.content)
   }
 
@@ -94,6 +97,8 @@ async function generate(context) {
       tags: context.tags,
       page,
       pageCount,
+      prevUrl: page > 1 ? (page > 2 ? (PUBLIC_URL + 'page/' + (page - 1).toString()) : PUBLIC_URL) : null,
+      nextUrl: page < pageCount ? (PUBLIC_URL + 'page/' + (page + 1).toString()) : null,
     }, 'index')
     await fs.writeFileAsync(indexPath, html)
   }
