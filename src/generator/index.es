@@ -6,6 +6,6 @@ import Posts from './posts'
 import Comments from './comments'
 import Atom from './atom'
 import Sitemap from './sitemap'
-import NginxRedirect from './sitemap'
+import NginxRedirect from './nginx-redirect'
 
 export { Content, Url, Pages, Posts, Comments, Atom, Sitemap, NginxRedirect }

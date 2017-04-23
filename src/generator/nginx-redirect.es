@@ -3,7 +3,7 @@ import path from 'path'
 import { fs } from '../utils'
 
 async function NginxRedirectGenerator(context) {
-  const { blogUrl } = context.blogUrl
+  const { blogUrl } = context.blog
   const { publicPath } = context.system
 
   let srule = ''
