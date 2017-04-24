@@ -11,13 +11,20 @@ const SOURCE_PATH = path.join(ROOT_PATH, 'source')
 const PUBLIC_PATH = path.join(ROOT_PATH, 'public')
 
 // need read from hane-config
-const BLOG_TITLE = 'hanejs'
+const BLOG_TITLE = 'hane'
+const BLOG_AUTHOR = 'hanejs'
 const BLOG_PUBLIC = 'http://hane.io'
 const PUBLIC_URL = '/'
 
 async function getMetaInfo(context, type) {
   try {
-    context[type] = await fs.readJsonAsync(path.join(SOURCE_PATH, type + '.json'))
+    const filePath = path.join(SOURCE_PATH, type + '.json')
+    if (type === 'comments') {
+      const data = await fs.readFileAsync(filePath, 'utf-8')
+      context[type] = JSON.parse(data.replace(/([:\[,])(\d+)([,}\]])/g, '$1"$2"$3').replace(/([:\[,])(\d+)([,}\]])/g, '$1"$2"$3'))
+    } else {
+      context[type] = await fs.readJsonAsync(filePath)
+    }
   } catch (e) {
     console.error(`read ${type} failed.`)
     console.error(e)
@@ -67,11 +74,12 @@ async function read() {
 
   context.posts = context.posts.reverse()
 
+  // TODO: read from config
   context.blog = {
     blogUrl: BLOG_PUBLIC,
     publicUrl: PUBLIC_URL,
     title: BLOG_TITLE,
-    author: 'tengattack',
+    author: BLOG_AUTHOR,
   }
   context.system = {
     sourcePath: SOURCE_PATH,
@@ -83,13 +91,15 @@ async function read() {
 
 read()
   .then(Generator.Url)
+  .then(Generator.Tabs)
   .then(Generator.Content)
+  .then(Generator.Tags)
   .then(Generator.Pages)
   .then(Generator.Posts)
   //.then(Generator.Comments)
-  .then(Generator.Atom)
-  .then(Generator.Sitemap)
-  .then(Generator.NginxRedirect)
+  //.then(Generator.Atom)
+  //.then(Generator.Sitemap)
+  //.then(Generator.NginxRedirect)
   .catch(err => {
     console.log(err)
   })

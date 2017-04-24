@@ -15,9 +15,12 @@ async function PagesGenerator(context) {
     const html = await theme.render({
       blog: context.blog,
       title: page.title,
+      activeTab: page.slug.split('/')[0],
+      tabs: context.tabs,
       posts: context.pages,
       tags: context.tags,
       post: page,
+      links: context.links,
     }, 'item')
     await fs.writeFileAsync(indexPath, html)
   }

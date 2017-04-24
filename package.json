@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "bluebird": "^3.5.0",
-    "fs-extra": "^2.1.2"
+    "fs-extra": "^2.1.2",
+    "json-bigint": "^0.2.3",
+    "json-bignum": "0.0.3"
   }
 }

@@ -19,8 +19,8 @@ async function UrlGenerator(context) {
 
   // generating tag urls
   for (const tag of context.tags) {
-    tag.pagePath = (tag.slug || tag.name) + '/'
-    tag.url = publicUrl + 'tags/' + tag.pagePath
+    tag.pagePath = 'tags/' + (tag.slug || tag.name) + '/'
+    tag.url = publicUrl + tag.pagePath
   }
 
   return context

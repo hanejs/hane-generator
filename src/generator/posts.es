@@ -21,12 +21,15 @@ async function PostPagesGenerator(context) {
     const html = await theme.render({
       blog: context.blog,
       title: page === 1 ? 'Index' : `Page ${page}`,
+      activeTab: 'blog',
+      tabs: context.tabs,
       posts: context.posts.slice(start, start + PAGE_POSTS_COUNT),
       tags: context.tags,
       page,
       pageCount,
       prevUrl: page > 1 ? (page > 2 ? (publicUrl + 'page/' + (page - 1).toString()) : publicUrl) : null,
       nextUrl: page < pageCount ? (publicUrl + 'page/' + (page + 1).toString()) : null,
+      links: context.links,
     }, 'index')
     await fs.writeFileAsync(indexPath, html)
   }
@@ -46,9 +49,13 @@ async function PostsGenerator(context) {
     const html = await theme.render({
       blog: context.blog,
       title: post.title,
+      activeTab: 'blog',
+      tabs: context.tabs,
+      tabs: context.tabs,
       posts: context.posts,
       tags: context.tags,
       post,
+      links: context.links,
     }, 'item')
     await fs.writeFileAsync(indexPath, html)
   }
