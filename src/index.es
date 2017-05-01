@@ -15,6 +15,7 @@ const BLOG_TITLE = 'hane'
 const BLOG_AUTHOR = 'hanejs'
 const BLOG_PUBLIC = 'http://hane.io'
 const PUBLIC_URL = '/'
+const BLOG_KEYWORDS = [ BLOG_TITLE, BLOG_AUTHOR, 'blog' ]
 
 async function getMetaInfo(context, type) {
   try {
@@ -80,6 +81,7 @@ async function read() {
     publicUrl: PUBLIC_URL,
     title: BLOG_TITLE,
     author: BLOG_AUTHOR,
+    keywords: BLOG_KEYWORDS,
   }
   context.system = {
     sourcePath: SOURCE_PATH,

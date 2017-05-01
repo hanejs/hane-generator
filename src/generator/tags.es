@@ -11,6 +11,10 @@ async function TagsGenerator(context) {
     tag.posts = context.posts.filter(post => post.tags && post.tags.includes(tag.name))
   }
 
+  for (const post of context.posts) {
+    post.ctags = context.tags.filter(tag => post.tags && post.tags.includes(tag.name))
+  }
+
   // generating tag index pages
   for (const tag of context.tags) {
     if (tag.posts.length > 0) {
